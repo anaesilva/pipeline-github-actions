@@ -24,3 +24,5 @@ jobs:
           terraform init
           terraform validate
           terraform plan
+
+        working-directory: ./sqs-terraform 
