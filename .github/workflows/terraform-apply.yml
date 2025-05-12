@@ -1,12 +1,13 @@
 name: Terraform Apply
 on: 
   workflow_run:
-    workflows: ["Terraform Plan"]  
+    workflows: ["Terraform Plan"]
     types:
       - completed
+
 env:
-  AWS_ACCESS_KEY_ID: ${{secrets.AWS_ACCESS_KEY_ID}}
-  AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
 jobs:
   terraform_apply:
@@ -16,9 +17,13 @@ jobs:
       run:
         shell: bash
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-    - name: Terraform Apply
-      run: |
-        terraform init
-        terraform apply -auto-approve
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v2
+
+      - name: Terraform Apply
+        run: |
+          terraform init
+          terraform apply -auto-approve
